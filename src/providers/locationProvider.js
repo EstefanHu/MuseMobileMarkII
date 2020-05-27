@@ -5,7 +5,7 @@ export const LocationContext = React.createContext({
   latitude: null,
   setLongitude: () => {},
   setLatitude: () => {}
-});
+})
 
 export const LocationProvider = ({ children }) => {
   const [longitude, setLongitude] = useState(null);
