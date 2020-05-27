@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
-import { 
+import {
   StyleSheet,
   View,
 } from 'react-native';
 import MapView from 'react-native-maps';
-import {DEVICE } from '../../constants/styles.js';
+import { DEVICE } from '../../constants/styles.js';
 
 import { LocationContext } from '../providers/locationProvider';
 
-export const Map = ({children}) => {
+export const Map = ({ children }) => {
   const { latitude, longitude } = useContext(LocationContext);
   return (
     <View style={styles.container}>
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   mapStyle: {
     width: DEVICE.WIDTH,

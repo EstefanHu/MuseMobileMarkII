@@ -16,7 +16,7 @@ export const BottomTabs = () => {
   const { setFeed } = useContext(FeedContext);
 
   useEffect(() => {
-    fetch('http://192.168.1.10:4000/mobile/base')
+    fetch(API + 'mobile/base')
       .then(res => res.json())
       .then(res => {
         setFeed(res.feed);

@@ -9,7 +9,7 @@ import { Map } from '../../components/map.js'
 
 export const Dash = () => {
   return (
-    <View>
+    <View style={{flex: 1}}>
       <Map>
 
       </Map>
