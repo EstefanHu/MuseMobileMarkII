@@ -3,18 +3,15 @@ import {
   StyleSheet,
   View,
   Text,
-  Animated
 } from 'react-native'
 import { DEVICE } from '../../constants/styles.js'
 
 export const BottomSheet = ({ story }) => {
   return (
-    <Animated.View>
-      <View style={styles.container}>
-        <Text style={styles.title}>{story.title}</Text>
-        <Text style={styles.description}>{story.body}</Text>
-      </View>
-    </Animated.View>
+    <View style={styles.container}>
+      <Text style={styles.title}>{story.title}</Text>
+      <Text style={styles.description}>{story.body}</Text>
+    </View>
   )
 }
 

@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import {
   StyleSheet,
   View,
   Text,
+  PanResponder,
+  Animated
 } from 'react-native'
 import { Marker } from 'react-native-maps'
 import { FeedContext } from '../../providers/feedProvider.js'
@@ -11,15 +13,46 @@ import { BottomSheet } from '../../components/bottomSheet.js'
 
 export const Dash = () => {
   const { feed } = useContext(FeedContext)
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const position = new Animated.ValueXY()
+  const pan = useRef(new Animated.ValueXY()).current
 
-  useEffect(() => {
-    console.log(feed)
-  })
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderGrant: () => {
+        console.log('hello');
+        pan.setOffset({ x: pan.x._value });
+      },
+      onPanResponderMove: Animated.event([null, { dx: pan.x }]),
+      onPanResponderRelease: () => {
+        pan.flattenOffset();
+      }
+    })
+  ).current;
 
   const renderStories = () => {
     return feed.map((item, idx) => {
-      return <BottomSheet key={item.id} story={item} />
-    })
+      if (idx === currentIndex) {
+        return (
+          <Animated.View
+            key={item.id}
+            style={[position.getLayout(), { transform: [{ translateX: pan.x }] }]}
+            {...panResponder.panHandlers}
+          >
+            <BottomSheet story={item} />
+          </Animated.View>
+        )
+      } else {
+        return (
+          <Animated.View
+            key={item.id}
+          >
+            <BottomSheet story={item} />
+          </Animated.View>
+        )
+      }
+    }).reverse()
   }
 
   return (
