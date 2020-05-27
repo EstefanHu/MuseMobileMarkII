@@ -5,18 +5,18 @@ import {
 } from '@expo/vector-icons'
 import { FeedContext } from '../providers/feedProvider'
 
-import { HomeStack } from '../stacks/home/homeStack'
+import { HomeStack } from '../stacks/home/homeStack.js'
 
 import { API } from '../../constants/network.js'
 import { COLORS } from '../../constants/styles.js'
 
 const Tabs = createBottomTabNavigator();
 
-export const AppTabs = () => {
+export const BottomTabs = () => {
   const { setFeed } = useContext(FeedContext);
 
   useEffect(() => {
-    fetch(API + 'mobile/base')
+    fetch('http://192.168.1.10:4000/mobile/base')
       .then(res => res.json())
       .then(res => {
         setFeed(res.feed);

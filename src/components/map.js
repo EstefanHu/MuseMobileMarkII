@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { 
   StyleSheet,
-  View
+  View,
 } from 'react-native';
 import MapView from 'react-native-maps';
-import { HEIGHT, WIDTH } from '../../constants/styles.js';
+import {DEVICE } from '../../constants/styles.js';
 
 import { LocationContext } from '../providers/locationProvider';
 
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   mapStyle: {
-    width: WIDTH,
-    height: HEIGHT,
+    width: DEVICE.WIDTH,
+    height: DEVICE.HEIGHT,
   }
 })

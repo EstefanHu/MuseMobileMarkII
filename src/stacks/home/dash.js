@@ -2,13 +2,17 @@ import React, { useState, useEffect, useContext } from 'react';
 import {
   StyleSheet,
   View,
+  Text,
 } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import { Marker } from 'react-native-maps';
+import { Map } from '../../components/map.js'
 
 export const Dash = () => {
   return (
-    <View style={styles.mapContainer}>
+    <View>
+      <Map>
 
+      </Map>
     </View>
   )
 }

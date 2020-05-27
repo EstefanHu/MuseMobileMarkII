@@ -2,9 +2,10 @@ import React, { useState, useEffect, useContext } from 'react'
 import {
   ActivityIndicator,
   View,
+  Text
 } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
-import { LocationContext } from './providers/locationProvider'
+import { LocationContext } from './providers/locationProvider.js'
 
 import { BottomTabs } from './components/bottomTabs'
 
@@ -19,7 +20,11 @@ export const Stage = () => {
 
   if (loading) {
     return (
-      <View syle={{flex: '1', justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
         <ActivityIndicator size='large' />
       </View>
     )
