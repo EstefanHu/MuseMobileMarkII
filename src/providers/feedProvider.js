@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
+import { API } from '../../constants/network.js'
 
 export const FeedContext = React.createContext({
   feed: null,
@@ -14,16 +15,16 @@ export const FeedProvider = ({ children }) => {
       feed,
       setFeed,
       refreshFeed: (refreshCallback) => {
-        fetch('http://192.168.1.10:4000/mobile/refreshLibrary')
+        fetch(API + 'mobile/refreshLibrary')
           .then(res => res.json())
           .then(res => {
-            if (!res.err) setFeed(res.payload);
-            refreshCallback();
+            if (!res.err) setFeed(res.payload)
+            refreshCallback()
           })
-          .catch(console.error);
+          .catch(console.error)
       },
     }}>
       {children}
     </FeedContext.Provider>
-  );
-};
+  )
+}
