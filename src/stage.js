@@ -1,32 +1,33 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react'
 import {
   ActivityIndicator,
-} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { LocationContext } from './providers/locationProvider';
+  View,
+} from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
+import { LocationContext } from './providers/locationProvider'
 
-import { AppTabs } from './layout/appTabs';
+import { BottomTabs } from './components/bottomTabs'
 
 export const Stage = () => {
-  const { updateLocation } = useContext(LocationContext);
-  const [loading, setLoading] = useState(true);
+  const { updateLocation } = useContext(LocationContext)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     updateLocation()
-    setLoading(false);
-  }, []);
+    setLoading(false)
+  }, [])
 
   if (loading) {
     return (
-      <Center>
+      <View syle={{flex: '1', justifyContent: 'center', alignItems: 'center'}}>
         <ActivityIndicator size='large' />
-      </Center>
+      </View>
     )
   }
 
   return (
     <NavigationContainer>
-      <AppTabs />
+      <BottomTabs />
     </NavigationContainer>
-  );
+  )
 }
