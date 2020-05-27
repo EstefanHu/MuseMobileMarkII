@@ -7,29 +7,38 @@ import { FeedContext } from '../providers/feedProvider'
 
 import { HomeStack } from '../stacks/home/homeStack.js'
 
-import { API } from '../../constants/network.js'
+import { API, PLACEHOLDER } from '../../constants/network.js'
 import { COLORS } from '../../constants/styles.js'
 
-const Tabs = createBottomTabNavigator();
+const Tabs = createBottomTabNavigator()
 
 export const BottomTabs = () => {
-  const { setFeed } = useContext(FeedContext);
+  const { setFeed } = useContext(FeedContext)
+
+  // useEffect(() => {
+  //   fetch(API + 'mobile/base')
+  //     .then(res => res.json())
+  //     .then(res => {
+  //       setFeed(res.feed)
+  //     })
+  //     .catch(console.error)
+  // }, [])
 
   useEffect(() => {
-    fetch(API + 'mobile/base')
+    fetch(PLACEHOLDER)
       .then(res => res.json())
       .then(res => {
-        setFeed(res.feed);
+        setFeed(res)
       })
-      .catch(console.error);
-  }, []);
+      .catch(console.error)
+  }, [])
 
   return (
     <Tabs.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ _, color, size }) => {
           if (route.name === 'Home') {
-            return <Octicons name={'home'} size={size} color={color} />;
+            return <Octicons name={'home'} size={size} color={color} />
           }
         },
       })}

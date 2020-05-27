@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react'
 import {
   StyleSheet,
   View,
   Text,
-} from 'react-native';
-import { Marker } from 'react-native-maps';
+} from 'react-native'
+import { Marker } from 'react-native-maps'
+import { FeedContext } from '../../providers/feedProvider.js'
 import { Map } from '../../components/map.js'
-import { FeedContext } from '../../providers/feedProvider.js';
+import { BottomSheet } from '../../components/bottomSheet.js'
 
 export const Dash = () => {
   const { feed } = useContext(FeedContext)
@@ -15,24 +16,34 @@ export const Dash = () => {
     console.log(feed)
   })
 
+  const renderStories = () => {
+    return feed.map((item, idx) => {
+      return <BottomSheet key={item.id} story={item} />
+    })
+  }
+
   return (
-    <View style={styles.container}>
+    <>
       <Map>
-        {feed[0] ? <Marker
+        {/* {feed[0] ? <Marker
           coordinate={{
             latitude: feed[0].coordinates[1],
             longitude: feed[0].coordinates[0]
           }}
           title={feed[0].title}
           description={feed[0].description}
-        /> : null}
+        /> : null} */}
       </Map>
-    </View>
+      <View style={styles.container}>
+        {renderStories()}
+      </View>
+    </>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
+  }
+
 })
