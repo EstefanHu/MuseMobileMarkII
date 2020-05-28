@@ -10,7 +10,7 @@ import { LocationContext } from '../providers/locationProvider';
 
 export const Map = ({ children }) => {
   const { latitude, longitude } = useContext(LocationContext);
-  
+
   return latitude ? (
     <View style={styles.container}>
       <MapView

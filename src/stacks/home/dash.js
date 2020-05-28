@@ -1,43 +1,69 @@
-import React, { useState, useEffect, useContext, useRef } from 'react'
+import React, { useState, useContext, useRef } from 'react'
 import {
   StyleSheet,
   View,
-  Text,
   PanResponder,
   Animated
 } from 'react-native'
-import { Marker } from 'react-native-maps'
 import { FeedContext } from '../../providers/feedProvider.js'
 import { Map } from '../../components/map.js'
 import { BottomSheet } from '../../components/bottomSheet.js'
+import { DEVICE } from '../../../constants/styles.js'
 
 export const Dash = () => {
   const { feed } = useContext(FeedContext)
   const [currentIndex, setCurrentIndex] = useState(0)
-  const position = new Animated.ValueXY()
   const pan = useRef(new Animated.ValueXY()).current
+  const swipedPan = useRef(new Animated.ValueXY({ x: -DEVICE.WIDTH, y: 0 })).current
 
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
-      onPanResponderGrant: () => {
-        console.log('hello');
-        pan.setOffset({ x: pan.x._value });
+      onPanResponderGrant: (e, gestureState) => {
+        if (gestureState.dx > 0 && currentIndex > 0) {
+          swipedPan.setValue({ x: -DEVICE.WIDTH + gestureState.dx, y: 0 })
+        } else {
+          pan.setOffset({ x: pan.x._value });
+        }
       },
       onPanResponderMove: Animated.event([null, { dx: pan.x }]),
-      onPanResponderRelease: () => {
+      onPanResponderRelease: (e, gestureState) => {
         pan.flattenOffset();
+        if (-gestureState.dx > 50 && -gestureState.vx > 0.7) {
+          Animated.timing(pan, {
+            toValue: ({ x: -DEVICE.WIDTH, y: 0 }),
+            duration: 200
+          }).start(() => {
+            setCurrentIndex(currentIndex => currentIndex + 1)
+            pan.setValue({ x: 0, y: 0 })
+          })
+        } else {
+          Animated.spring(pan, {
+            toValue: ({ x: 0, y: 0 })
+          }).start()
+        }
       }
     })
   ).current;
 
   const renderStories = () => {
     return feed.map((item, idx) => {
+      if (idx === currentIndex - 1) {
+        return (
+          <Animated.View
+            key={item.id}
+            style={{ transform: [{ translateX: swipedPan.x }] }}
+            {...panResponder.panHandlers}
+          >
+            <BottomSheet story={item} />
+          </Animated.View>
+        )
+      } else if (idx < currentIndex) return null
       if (idx === currentIndex) {
         return (
           <Animated.View
             key={item.id}
-            style={[position.getLayout(), { transform: [{ translateX: pan.x }] }]}
+            style={{ transform: [{ translateX: pan.x }] }}
             {...panResponder.panHandlers}
           >
             <BottomSheet story={item} />
@@ -77,6 +103,7 @@ export const Dash = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position: 'absolute',
+    bottom: 150
   }
-
 })
